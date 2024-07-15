@@ -259,7 +259,7 @@
     display: grid;
     grid-template-columns: repeat(16, 1fr);
     gap: 4px;
-    margin-left: 13px;
+    /* margin-left: 13px; */
     width: 100%;
     place-items: center;
   }
@@ -284,7 +284,7 @@
   .drummachine {
     display: grid;
     grid-template-columns: repeat(16, 1fr);
-    margin-left: 15px;
+    /* margin-left: 15px; */
     gap: 5px;
     width: 100%;
   }
