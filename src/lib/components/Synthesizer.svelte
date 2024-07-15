@@ -15,7 +15,6 @@
   import { get } from 'svelte/store';
     import ProjectInfo from "./ProjectInfo.svelte";
     import ScaleComponent from "./ScaleComponent.svelte";
-    import { read } from "$app/server";
   
     onMount(() => {
         checkForLoginContext();
