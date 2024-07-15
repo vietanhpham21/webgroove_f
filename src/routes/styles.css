@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+:root {
+    font-family: "Inter", sans-serif!important;
+    font-optical-sizing: auto;
+    font-style: normal;
+    background-color: #272727; /* Schwarzer Hintergrund */
+
+      font-weight: 400;
+  }
+
+
+  body {
+    background-color: #272727; /* Schwarzer Hintergrund */
+    color: #fff; /* Weiße Schriftfarbe für den Kontrast */
+  }
+
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* .content {
+    width: 100%;
+    height: 100%;
+} */
