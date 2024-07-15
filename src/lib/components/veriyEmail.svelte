@@ -17,7 +17,7 @@
 
     async function getVerifiedStatus() {
         const userId = localStorage.getItem("userId");
-        const url = `http://localhost:3999/api/user/getVerifytoken?userId=${userId}`;
+        const url = `https://webgroove-82906d5c43b2.herokuapp.com/api/user/getVerifytoken?userId=${userId}`;
         let verificationToken;
         try {
             const response = await fetch(url, { method: "GET" });

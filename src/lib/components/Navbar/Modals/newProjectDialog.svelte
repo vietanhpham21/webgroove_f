@@ -40,7 +40,7 @@ import {bpmStore,projectNameStore,projectIsPublic,activeDrumStore,rows, projectI
         try {
             isLoading = true;
             const response = await fetch(
-                "http://localhost:3999/api/projects/new",
+                "https://webgroove-82906d5c43b2.herokuapp.com/api/projects/new",
                 {
                     method: "POST",
                     headers: {

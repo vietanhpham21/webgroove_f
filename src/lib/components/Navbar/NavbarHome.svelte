@@ -24,7 +24,7 @@
     async function getProfilePicture() {
         pictureUrl = "";
         try {
-            const response = await fetch(`http://localhost:3999/api/user/${localStorage.getItem("userId")}/profile-picture`,
+            const response = await fetch(`https://webgroove-82906d5c43b2.herokuapp.com/api/user/${localStorage.getItem("userId")}/profile-picture`,
                 {method: "GET"},
             );
             if (response.ok) {

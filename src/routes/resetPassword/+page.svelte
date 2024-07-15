@@ -23,7 +23,7 @@
     const data = { email, newPassword };
 
     try {
-      const response = await fetch(`http://localhost:3999/api/user/changePassword/${token}`, {
+      const response = await fetch(`https://webgroove-82906d5c43b2.herokuapp.com/api/user/changePassword/${token}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)

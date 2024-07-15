@@ -35,7 +35,7 @@
 
     async function fetchProfile(): Promise<void> {
         try {
-            const response = await fetch(`http://localhost:3999/api/user/profile/${userId}`, {
+            const response = await fetch(`https://webgroove-82906d5c43b2.herokuapp.com/api/user/profile/${userId}`, {
                 method: "GET",
             });
             if (response.ok) {
@@ -83,7 +83,7 @@
         user.profilePicture = stripBase64Image(user.profilePicture);
 
         try {
-            const response = await fetch(`http://localhost:3999/api/manageUser/${userId}`, {
+            const response = await fetch(`https://webgroove-82906d5c43b2.herokuapp.com/api/manageUser/${userId}`, {
                 method: "PUT", // Use PUT or POST depending on your API design
                 headers: {
                     'Content-Type': 'application/json'
@@ -114,7 +114,7 @@
     async function deleteProfile(): Promise<void> {
         showModal = false;
         try {
-            const response = await fetch(`http://localhost:3999/api/manageUser/${userId}`, {
+            const response = await fetch(`https://webgroove-82906d5c43b2.herokuapp.com/api/manageUser/${userId}`, {
                 method: "DELETE",
             });
             if (response.ok) {

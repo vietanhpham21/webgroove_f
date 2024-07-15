@@ -51,7 +51,7 @@ export async function checkForLoginContext() {
     return;
   }
 
-  const url = `http://localhost:3999/api/login/auth?userId=${userId}&jwtToken=${jwtToken}`;
+  const url = `https://webgroove-82906d5c43b2.herokuapp.com/api/login/auth?userId=${userId}&jwtToken=${jwtToken}`;
 
   try {
     const response = await fetch(url, { method: "GET" });

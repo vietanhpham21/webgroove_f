@@ -50,7 +50,7 @@
     // Lädt alle Projekte des Users und gibt sie in das Array "projects"
     async function handleOpenProject() {
         const userId = localStorage.getItem("userId");
-        const url = `http://localhost:3999/api/projects/open?userId=${userId}`;
+        const url = `https://webgroove-82906d5c43b2.herokuapp.com/api/projects/open?userId=${userId}`;
 
         try {
             isLoading = true;
@@ -72,7 +72,7 @@
 
     // Lädt das Synthesizer- und Drummaschinepatten des ausgewählten Projektes aus
     async function loadPatterns() {
-        const url = `http://localhost:3999/api/projects/${$projectId}/patterns`;
+        const url = `https://webgroove-82906d5c43b2.herokuapp.com/api/projects/${$projectId}/patterns`;
 
         try {
             errorMessage = "";

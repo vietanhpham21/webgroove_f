@@ -78,7 +78,7 @@
         console.log(profilePicBase64)
 
         try {
-            const response = await fetch("http://localhost:3999/api/user", {
+            const response = await fetch("https://webgroove-82906d5c43b2.herokuapp.com/api/user", {
                 method: "POST",
                 // headers: { "Content-Type": "application/json" },
                 body: formData,

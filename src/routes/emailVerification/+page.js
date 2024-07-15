@@ -8,7 +8,7 @@ export async function load({ url }) {
     }
 
     try {
-        const response = await fetch(`http://localhost:3999/api/user/verify?token=${token}&email=${email}`);
+        const response = await fetch(`https://webgroove-82906d5c43b2.herokuapp.com/api/user/verify?token=${token}&email=${email}`);
         const data = await response.json();
         if (data.success) {
             console.log(data)

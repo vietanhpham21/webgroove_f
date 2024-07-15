@@ -9,7 +9,7 @@
         const data = { email: email };
         try {
             const response = await fetch(
-                "http://localhost:3999/api/user/sendResetEmail",
+                "https://webgroove-82906d5c43b2.herokuapp.com/api/user/sendResetEmail",
                 {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },

@@ -63,7 +63,7 @@
 
         try {
             const response = await fetch(
-                `http://localhost:3999/api/projects/${$projectId}`,
+                `https://webgroove-82906d5c43b2.herokuapp.com/api/projects/${$projectId}`,
                 {
                     method: "PUT",
                     headers: {
@@ -93,7 +93,7 @@
             isLoading = true;
 
             const response = await fetch(
-                `http://localhost:3999/api/projects/${$projectId}/likes`,
+                `https://webgroove-82906d5c43b2.herokuapp.com/api/projects/${$projectId}/likes`,
             );
             getProfilePicture()
             const data = await response.json();
@@ -106,7 +106,7 @@
         // response enhält dann ein array mit objekten die jeweils "id" und "username" haben
         try {
             const response = await fetch(
-                `http://localhost:3999/api/projects/${$projectId}/likedby`,
+                `https://webgroove-82906d5c43b2.herokuapp.com/api/projects/${$projectId}/likedby`,
             );
             const data = await response.json();
             likedByList = data.users;
@@ -133,7 +133,7 @@
     async function toggleLike(): Promise<void> {
         try {
             const response = await fetch(
-                `http://localhost:3999/api/projects/${$projectId}/like`,
+                `https://webgroove-82906d5c43b2.herokuapp.com/api/projects/${$projectId}/like`,
                 {
                     method: isLiked ? "DELETE" : "POST",
                     headers: {
@@ -164,7 +164,7 @@
     async function handleDeleteProject() {
         try {
             const response = await fetch(
-                `http://localhost:3999/api/projects/${$projectId}`,
+                `https://webgroove-82906d5c43b2.herokuapp.com/api/projects/${$projectId}`,
                 {
                     method: "DELETE",
                     headers: {"Content-Type": "application/json",},
@@ -191,7 +191,7 @@
     async function getProfilePicture() {
         pictureUrl = "";
         try {
-            const response = await fetch(`http://localhost:3999/api/user/${$projectOwnerId}/profile-picture`,
+            const response = await fetch(`https://webgroove-82906d5c43b2.herokuapp.com/api/user/${$projectOwnerId}/profile-picture`,
                 {method: "GET"},
             );
             if (response.ok) {
