@@ -149,26 +149,32 @@
 
     // Logik zum previewen eines Songs
     const handlePlayClick = async (project) => {
-        try {
-            Tone.Transport.stop();
-            Tone.Transport.clear();
-            Tone.Transport.start();
-            for (let key in previewIsPlaying) {
-                previewIsPlaying[key] = false;
-            }
-            previewIsPlaying[project.id] = true;
+    try {
+        // Clear and stop the transport
+        Tone.Transport.stop();
+        Tone.Transport.clear();
 
-            beatStore.set(0);
-            bpmStore.set(project.bpm);
-            await loadPatterns(project.id);
-
-            Tone.Transport.bpm.value = $bpmStore;
-            Tone.start();
-            Tone.Transport.start();
-        } catch (error) {
-            console.error("Fehler beim Abspielen des Projekts:", error);
+        // Start transport and set up playback
+        for (let key in previewIsPlaying) {
+            previewIsPlaying[key] = false;
         }
-    };
+        previewIsPlaying[project.id] = true;
+
+        beatStore.set(0);
+        bpmStore.set(project.bpm);
+        await loadPatterns(project.id);
+
+        Tone.Transport.bpm.value = $bpmStore;
+
+        setTimeout(() => {
+            Tone.Transport.start();
+        }, 100); // Delay of 100ms (adjust as needed)
+        
+    } catch (error) {
+        console.error("Fehler beim Abspielen des Projekts:", error);
+    }
+};
+
 
     const handleStopClick = (project) => {
         Tone.Transport.stop();
