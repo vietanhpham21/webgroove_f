@@ -127,9 +127,7 @@
             updateSynthPitchStore(patterns.stepSequence.pitch);
             updateSynthPanStore(patterns.stepSequence.pan);
             updateSynthAdsr(patterns.stepSequence.adsr);
-            effectSynthStore.set(
-                deserializeEffects(patterns.stepSequence.effectSynth),
-            );
+            effectSynthStore.set(deserializeEffects(patterns.stepSequence.effectSynth));
             wavetableIndexStore.set(patterns.stepSequence.waveTableIndex);
             updateSynthScale(patterns.stepSequence.scale);
 
@@ -138,8 +136,7 @@
             deserializePans(patterns.drumSequence.panDrum);
             soloDrumStore.set(patterns.drumSequence.soloDrum);
             muteDrumStore.set(patterns.drumSequence.muteDrum);
-            effectDrumStore.set(
-                deserializeEffects(patterns.drumSequence.effectDrum),
+            effectDrumStore.set(deserializeEffects(patterns.drumSequence.effectDrum),
             );
         } catch (error) {
             console.error("Fehler beim Laden des Projekts:", error);
@@ -154,7 +151,7 @@
         try {
             Tone.Transport.stop();
             Tone.Transport.clear();
-
+            Tone.Transport.start();
             for (let key in previewIsPlaying) {
                 previewIsPlaying[key] = false;
             }
@@ -292,7 +289,7 @@
             throw new Error(`HTTP-Fehler! Statuscode: ${response.status}`);
         }
 
-        project.likeCount = isLiked ? project.likeCount - 1 : project.likeCount + 1;
+        project.likeCount = isLiked ? parseInt(project.likeCount) - 1 : parseInt(project.likeCount) + 1;
         project.likedByCurrentUser = !isLiked;
 
         projects = projects.map(p => (p.id === projectId ? project : p));

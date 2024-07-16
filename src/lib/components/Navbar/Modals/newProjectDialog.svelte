@@ -1,7 +1,7 @@
 <script>
     // @ts-nocheck
     import LoadingIndicator from "$lib/components/UiComponentes/loadingIndicator.svelte";
-import {bpmStore,projectNameStore,projectIsPublic,activeDrumStore,rows, projectId, drumPatternIdStore, seqPatternIdStore, description, projectOwner, projectOwnerId, projectIsImportable} from "$lib/stores";
+import {bpmStore,projectNameStore,projectIsPublic,activeDrumStore,rows, projectId, drumPatternIdStore, seqPatternIdStore, description, projectOwner, projectOwnerId, projectIsImportable, effectDrumStore, effectSynthStore} from "$lib/stores";
     export let projectName;
     export let isPublic = false;
     export let cancelSave;
@@ -18,6 +18,7 @@ import {bpmStore,projectNameStore,projectIsPublic,activeDrumStore,rows, projectI
         projectOwnerId.set(localStorage.getItem("userId"))
         projectNameStore.update(() => projectName);
         projectIsPublic.update(() => isPublic);
+
         bpmStore.update(() => bpm)
         projectOwner.set(localStorage.getItem("username"))
         if(bpm == undefined) {

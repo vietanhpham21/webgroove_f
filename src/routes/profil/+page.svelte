@@ -93,6 +93,7 @@
             if (response.ok) {
                 const updatedUser: User = await response.json();
                 user = updatedUser;
+                localStorage.setItem('username', user.username);
                 isEditing = false; // Exit editing mode
             } else {
                 console.error('Fehler beim Speichern des Profils:', response.statusText);

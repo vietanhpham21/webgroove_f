@@ -5,7 +5,15 @@ import {
   projectId, projectNameStore, projectIsPublic, rows, updateDrumState, loggedIn,
   description,
   projectOwner,
-  readOnlyMode
+  readOnlyMode,
+  effectSynthStore,
+  synthAttack,
+  synthVolumeStore,
+  synthPitchStore,
+  synthPanStore,
+  synthDecay,
+  synthSustain,
+  synthRelease
 } from "../../stores";
 import * as Tone from "tone";
 
@@ -20,7 +28,16 @@ export async function resetProjectData() {
   soloDrumStore.update(() => Array.from({ length: 6 }, () => false));
   muteDrumStore.update(() => Array.from({ length: 6 }, () => false));
   effectDrumStore.update(() => []);
-
+  effectDrumStore.set([]);
+  effectSynthStore.set([]);
+  
+  synthVolumeStore.set(new Tone.Gain(0.7));
+  synthPitchStore.set(new Tone.PitchShift(0.0));
+  synthPanStore.set(new Tone.Panner(0.0));
+  synthAttack.set(0.5);
+  synthDecay.set(0.5);
+  synthSustain.set(0.5);
+  synthRelease.set(0.5);
 
   rows.update((rowsValue) => {
     return rowsValue.map((row) =>
