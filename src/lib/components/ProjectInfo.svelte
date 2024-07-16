@@ -88,6 +88,7 @@
 
     //wenn ein Projekt geladen wird dann werden die aktuelle likezahl requested und es wird geschaut ob der aktuelle user das projekt bereits geliket hat
     onMount(async () => {
+        let currentOwnerId = $projectOwnerId
         pictureUrl = "";
         try {
             isLoading = true;
@@ -95,9 +96,11 @@
             const response = await fetch(
                 `https://webgroove-82906d5c43b2.herokuapp.com/api/projects/${$projectId}/likes`,
             );
-            getProfilePicture()
+            if(response.ok) {
+            await getProfilePicture(currentOwnerId);
             const data = await response.json();
             projectLikes.set(data.likeCount);
+            }
         } catch (error) {
             console.error("Fehler beim Abrufen der Likes:", error);
         }
@@ -188,22 +191,23 @@
         }
     }
 
-    async function getProfilePicture() {
-        pictureUrl = "";
-        try {
-            const response = await fetch(`https://webgroove-82906d5c43b2.herokuapp.com/api/user/${$projectOwnerId}/profile-picture`,
-                {method: "GET"},
-            );
-            if (response.ok) {
-                const data = await response.json();
-                pictureUrl = formatBase64Image(data.base64)
-            } else {
-                pictureUrl = "/Logo/Logo.png"; // Fallback image URL
-            }
-        } catch (error) {
+    async function getProfilePicture(currentOwnerId) {
+    pictureUrl = "";
+    try {
+        const response = await fetch(`https://webgroove-82906d5c43b2.herokuapp.com/api/user/${currentOwnerId}/profile-picture`, {
+            method: "GET",
+        });
+        if (response.ok) {
+            const data = await response.json();
+            pictureUrl = formatBase64Image(data.base64);
+        } else {
             pictureUrl = "/Logo/Logo.png"; // Fallback image URL
         }
+    } catch (error) {
+        pictureUrl = "/Logo/Logo.png"; // Fallback image URL
     }
+}
+
 
     function truncateText(text, maxLength = 20) {
         if (text.length <= maxLength) {

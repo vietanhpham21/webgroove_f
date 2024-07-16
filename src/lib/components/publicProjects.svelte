@@ -139,7 +139,7 @@
             effectDrumStore.set(deserializeEffects(patterns.drumSequence.effectDrum),
             );
         } catch (error) {
-            console.error("Fehler beim Laden des Projekts:", error);
+            // console.error("Fehler beim Laden des Projekts:", error);
             errorMessage = "Fehler beim laden des Projekts";
         } finally {
             loadingProjectId = null; // Ladeindikator zurücksetzen
@@ -196,7 +196,12 @@
         bpmStore.set(project.bpm);
         loadPatterns(project.id);
         readOnlyMode.set(false);
+        projectOwner.set(localStorage.getItem("username"));
+        projectOwnerId.set(localStorage.getItem("userId"));
+        console.log($projectOwner)
         goto("./synthesizer");
+
+
         showNewProjectDialog.set(true);
     }
 
@@ -221,17 +226,17 @@
                 const data = await response.json();
                 return formatBase64Image(data.base64);
             } else {
-                console.error(
-                    `Fehler beim Laden des Profilbilds für Projekt ${project.id}:`,
-                    response.status,
-                );
+                // console.error(
+                //     `Fehler beim Laden des Profilbilds für Projekt ${project.id}:`,
+                //     response.status,
+                // );
                 return "/Logo/Logo.png"; // Fallback, falls das Laden des Profilbilds fehlschlägt
             }
         } catch (error) {
-            console.error(
-                `Fehler beim Laden des Profilbilds für Projekt ${project.id}:`,
-                error,
-            );
+            // console.error(
+            //     `Fehler beim Laden des Profilbilds für Projekt ${project.id}:`,
+            //     error,
+            // );
             return "/Logo/Logo.png"; // Fallback, falls ein Fehler auftritt
         }
     }
