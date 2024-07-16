@@ -16,6 +16,7 @@
         isPreviewing,
         muteDrumStore,
         projectId,
+        projectIsImportable,
         projectIsPublic,
         projectLikes,
         projectNameStore,
@@ -192,6 +193,7 @@
     }
 
     function handleImportProjectClick(project) {
+        resetProjectData()
         loadingProjectId = project.id;
         bpmStore.set(project.bpm);
         loadPatterns(project.id);
@@ -203,6 +205,17 @@
 
 
         showNewProjectDialog.set(true);
+    }
+
+    function resetProjectData() {
+        projectId.set(0);
+        projectNameStore.set("")
+        projectIsPublic.set(false);
+        projectIsImportable.set(false);
+        description.set("");
+        projectLikes.set(0);
+        projectOwner.set("")
+        projectOwnerId.set(0)
     }
 
 
