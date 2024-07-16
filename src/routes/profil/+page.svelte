@@ -65,14 +65,47 @@
     function handleFileUpload(event: Event): void {
     const file = (event.target as HTMLInputElement).files[0];
     if (file) {
+        if (file.size > 2 * 1024 * 1024) {
+            alert('Die Datei ist zu groß! Bitte wähle eine Datei unter 2MB.');
+            return;
+        }
+
         fileName = file.name;
         const reader = new FileReader();
+
         reader.onload = (e: ProgressEvent<FileReader>) => {
-            user.profilePicture = e.target.result as string;
+            const img = new Image();
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+
+                const size = 200; // Fixed size for profile picture
+                canvas.width = size;
+                canvas.height = size;
+
+                // Calculate scale to cover the entire canvas
+                const scale = Math.max(size / img.width, size / img.height);
+                const width = img.width * scale;
+                const height = img.height * scale;
+
+                const offsetX = (width - size) / 2;
+                const offsetY = (height - size) / 2;
+
+                // Clear the canvas and draw the centered image
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(img, -offsetX, -offsetY, width, height);
+
+                // Set profile picture to compressed base64 image
+                user.profilePicture = canvas.toDataURL('image/jpeg', 0.5);
+            };
+            img.src = e.target.result as string;
         };
+
         reader.readAsDataURL(file);
     }
 }
+
+
 
     export function stripBase64Image(dataUrl: string): string {
         const base64Index = dataUrl.indexOf('base64,') + 7; // Die Länge von 'base64,' ist 7
@@ -305,17 +338,27 @@
     }
 
     .profile-picture {
-        max-width: 200px; /* Maximale Breite des Profilbildes */
+        max-width: 200px;
         max-height: 200px;
+        width: 100%; /* Sicherstellen, dass das Bild die maximale Breite ausnutzt */
+        height: auto; /* Automatische Höhe für die Beibehaltung des Seitenverhältnisses */
         border-radius: 50%; /* Rundes Profilbild */
-        margin: 1rem auto; /* Zentriert das Profilbild */
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Leichte Schatten */
+        margin: 1rem auto;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        object-fit: cover; /* Bild wird zugeschnitten, um das Container-Verhältnis zu respektieren */
     }
+
     .img-container {
+        width: 100%; /* Feste Breite */
+        height: 200px; /* Feste Höhe */
+        overflow: hidden; /* Überschüssiges Bild abschneiden */
+        border-radius: 50%; /* Container ebenfalls rund */
         display: flex;
         justify-content: center;
-        padding-bottom: 1em;
+        align-items: center; /* Zentriert das Bild im Container */
+        padding: 1em 0 2em 0;
     }
+
 
 </style>
 <div class="container">
@@ -358,7 +401,9 @@
                 <button class="delete-button" on:click={confirmDelete}>Profil löschen</button>
             </div>
         {:else}
-            <div class ="img-container"><img src={user.profilePicture} alt="Profilbild" class="profile-picture"width="300" height="200"></div>
+            <div class ="img-container">
+                <img src={user.profilePicture} alt="Profilbild" class="profile-picture">
+            </div>
             <p><strong>Username:</strong> <span>{user.username}</span></p>
             <p><strong>Email:</strong> <span>{user.email}</span></p>
             <p><strong>Country:</strong> <span>{user.country ? user.country : 'kein Land angegeben'}</span></p>
