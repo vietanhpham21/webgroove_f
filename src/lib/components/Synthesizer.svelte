@@ -3,7 +3,7 @@
   import BpmAnzeiger from "./BpmAnzeiger.svelte";
   import AdsrControl from "./AdsrControl.svelte";
   import Knob from "./UiComponentes/Knob.svelte";
-  import { playStore, bpmStore, projectNameStore, projectIsPublic, projectId, drumPatternNameStore, synthVolumeStore, updateSynthVolumeStore, synthPanStore, updateSynthPanStore, synthPitchStore, updateSynthPitchStore, seqPatternIdStore, drumPatternIdStore, showNewProjectDialog, effectSynthStore, addSynthEffect, removeSynthEffect, moveSynthEffectUp, moveSynthEffectDown, wavetableIndexStore, loggedIn, projectIsImportable, readOnlyMode } from "$lib/stores";
+  import { playStore, bpmStore, projectNameStore, projectIsPublic, projectId, drumPatternNameStore, synthVolumeStore, updateSynthVolumeStore, synthPanStore, updateSynthPanStore, synthPitchStore, updateSynthPitchStore, seqPatternIdStore, drumPatternIdStore, showNewProjectDialog, effectSynthStore, addSynthEffect, removeSynthEffect, moveSynthEffectUp, moveSynthEffectDown, wavetableIndexStore, loggedIn, projectIsImportable, readOnlyMode, projectOwnerId, projectOwner } from "$lib/stores";
   import { wavetables } from "$lib/wavetables.ts";
   import * as Tone from "tone";
   import { beatStore, rows } from "$lib/stores";

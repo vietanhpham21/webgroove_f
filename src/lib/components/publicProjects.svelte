@@ -38,6 +38,7 @@
     import LoadingIndicator from "./UiComponentes/loadingIndicator.svelte";
     import { goto } from "$app/navigation";
     import * as Tone from "tone";
+    import EffectList from "./EffectList.svelte";
 
     let projects = [];
     let loadingProjectId = null; // ID des Projekts, das aktuell geladen wird
@@ -162,6 +163,9 @@
 
         beatStore.set(0);
         bpmStore.set(project.bpm);
+        
+        effectDrumStore.set([])
+        effectSynthStore.set([])
         await loadPatterns(project.id);
 
         Tone.Transport.bpm.value = $bpmStore;
@@ -169,7 +173,7 @@
         setTimeout(() => {
             Tone.Transport.start();
         }, 100); // Delay of 100ms (adjust as needed)
-        
+
     } catch (error) {
         console.error("Fehler beim Abspielen des Projekts:", error);
     }
@@ -192,6 +196,8 @@
         projectLikes.set(parseInt(project.likeCount));
         description.set(project.description);
         projectIsPublic.set(project.visibility);
+        projectOwner.set(project.User.username)
+        projectOwnerId.set(project.User.id)
         loadPatterns(project.id);
         readOnlyMode.set(true);
         // isPreviewing.set(true);
@@ -206,7 +212,7 @@
         readOnlyMode.set(false);
         projectOwner.set(localStorage.getItem("username"));
         projectOwnerId.set(localStorage.getItem("userId"));
-        console.log($projectOwner)
+        // console.log($projectOwner)
         goto("./synthesizer");
 
 

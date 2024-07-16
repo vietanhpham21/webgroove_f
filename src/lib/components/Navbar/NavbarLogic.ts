@@ -77,6 +77,7 @@ export async function checkForLoginContext() {
       loggedIn.set(true);  
     } else {
       loggedIn.set(false);  
+      localStorage.clear();
       console.error("Authentifizierung fehlgeschlagen:", response.status, response.statusText);
     }
   } catch (error) {

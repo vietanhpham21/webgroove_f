@@ -23,7 +23,10 @@
 
         readOnlyMode,
 
-        loggedIn
+        loggedIn,
+
+        isPreviewing
+
 
 
 
@@ -89,6 +92,7 @@
     //wenn ein Projekt geladen wird dann werden die aktuelle likezahl requested und es wird geschaut ob der aktuelle user das projekt bereits geliket hat
     onMount(async () => {
         let currentOwnerId = $projectOwnerId
+        console.log(currentOwnerId)
         pictureUrl = "";
         try {
             isLoading = true;
@@ -97,7 +101,10 @@
                 `https://webgroove-82906d5c43b2.herokuapp.com/api/projects/${$projectId}/likes`,
             );
             if(response.ok) {
+            if(!$readOnlyMode) {
             await getProfilePicture(currentOwnerId);
+            }
+
             const data = await response.json();
             projectLikes.set(data.likeCount);
             }

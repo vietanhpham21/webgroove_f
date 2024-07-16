@@ -88,7 +88,7 @@
 
             projectOwner.set(owner)
             projectOwnerId.set(ownerId)
-            console.log($projectOwnerId)
+            // console.log($projectOwnerId)
 
             activeDrumStore.update(() => {
                 return drumPattern;

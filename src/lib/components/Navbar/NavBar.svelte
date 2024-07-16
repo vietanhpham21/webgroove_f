@@ -57,7 +57,10 @@
     }
 
     onMount(() => {
-        getProfilePicture();
+        if(localStorage.getItem("userId")) {
+            getProfilePicture();
+
+        }
         const navLinks = document.querySelectorAll(".nav-link");
         navLinks.forEach((n) => n.addEventListener("click", closeMenu));
         document.addEventListener('click', handleClickOutside);
@@ -135,6 +138,11 @@
         return ''; // Leerer Tooltip
     }
 
+        
+    function print() {
+        console.log($projectNameStore)
+    }
+
 
 </script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -171,6 +179,10 @@
             </li>
             <li class="nav-item">
                 <a href="javascript:void(0);" on:click={openProject} class="nav-link" class:disabled={!$loggedIn}>Open</a>
+            </li>
+
+            <li class="nav-item">
+                <a href="javascript:void(0);" on:click={print} class="nav-link">test</a>
             </li>
             <li class="nav-item">
                 <a href="javascript:void(0);" 

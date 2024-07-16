@@ -2,6 +2,7 @@
     // @ts-nocheck
     import LoadingIndicator from "$lib/components/UiComponentes/loadingIndicator.svelte";
 import {bpmStore,projectNameStore,projectIsPublic,activeDrumStore,rows, projectId, drumPatternIdStore, seqPatternIdStore, description, projectOwner, projectOwnerId, projectIsImportable, effectDrumStore, effectSynthStore} from "$lib/stores";
+    import { onMount } from "svelte";
     export let projectName;
     export let isPublic = false;
     export let cancelSave;
@@ -12,13 +13,18 @@ import {bpmStore,projectNameStore,projectIsPublic,activeDrumStore,rows, projectI
 
     const userId = localStorage.getItem("userId");
 
+    onMount(async () => {
+        projectOwner.set(localStorage.getItem("username"))
+        projectOwnerId.set(localStorage.getItem("userId"))
+    });
+
     // neues projekts
     async function handleNewProject() {
         projectOwner.set(localStorage.getItem("username"))
         projectOwnerId.set(localStorage.getItem("userId"))
         projectNameStore.update(() => projectName);
         projectIsPublic.update(() => isPublic);
-
+        // console.log($projectOwner)
         bpmStore.update(() => bpm)
         projectOwner.set(localStorage.getItem("username"))
         if(bpm == undefined) {
