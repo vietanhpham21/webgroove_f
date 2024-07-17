@@ -14,24 +14,12 @@
         projectLikes,
         projectOwner,
         resetProject,
-
         formatBase64Image,
-
         projectOwnerId,
-
         projectIsImportable,
-
         readOnlyMode,
-
         loggedIn,
-
-        isPreviewing
-
-
-
-
-
-
+        isPreviewing,
     } from "$lib/stores";
     import LoadingIndicator from "./UiComponentes/loadingIndicator.svelte";
 
@@ -39,10 +27,9 @@
     let isLiked: boolean = false;
     let likedByList;
     let likedByCurrentUser = false;
-    let isLoading = false
-    let msg = {show: false, msg: "" }
+    let isLoading = false;
+    let msg = { show: false, msg: "" };
     let pictureUrl;
-
 
     function editProject(): void {
         isEditing = true;
@@ -53,7 +40,6 @@
         isEditing = false;
     }
 
-
     // speichert die projektinfos nachdem sie editiert wurden
     async function saveProjectChanges(): Promise<void> {
         const data = {
@@ -61,7 +47,7 @@
             description: $description,
             bpm: $bpmStore,
             visibility: $projectIsPublic,
-            isImportable: $projectIsImportable
+            isImportable: $projectIsImportable,
         };
 
         try {
@@ -86,27 +72,27 @@
             }
         } catch (error) {
             console.error("Fehler beim Speichern des Projekts:", error);
-        } 
+        }
     }
 
     //wenn ein Projekt geladen wird dann werden die aktuelle likezahl requested und es wird geschaut ob der aktuelle user das projekt bereits geliket hat
     onMount(async () => {
-        let currentOwnerId = $projectOwnerId
+        let currentOwnerId = $projectOwnerId;
         // console.log(currentOwnerId)
-        pictureUrl = "";
+        pictureUrl = "/Logo/Logo.png";
         try {
             isLoading = true;
 
             const response = await fetch(
                 `https://webgroove-82906d5c43b2.herokuapp.com/api/projects/${$projectId}/likes`,
             );
-            if(response.ok) {
-            if(!$readOnlyMode) {
-            await getProfilePicture(currentOwnerId);
-            }
+            if (response.ok) {
+                if (!$readOnlyMode) {
+                    await getProfilePicture(currentOwnerId);
+                }
 
-            const data = await response.json();
-            projectLikes.set(data.likeCount);
+                const data = await response.json();
+                projectLikes.set(data.likeCount);
             }
         } catch (error) {
             console.error("Fehler beim Abrufen der Likes:", error);
@@ -122,7 +108,9 @@
             likedByList = data.users;
 
             // suche in der Liste nach dem eingeloggten User
-            const currentUser = likedByList.find(user => user.id === parseInt(localStorage.getItem("userId")));
+            const currentUser = likedByList.find(
+                (user) => user.id === parseInt(localStorage.getItem("userId")),
+            );
 
             if (currentUser) {
                 likedByCurrentUser = true;
@@ -131,18 +119,17 @@
             }
         } catch (error) {
             console.log("Fehler beim Abrufen der Likes:", error);
-        } 
+        }
 
         // herz wird rot auf der seite
         isLiked = likedByCurrentUser;
-        isLoading = false
-
+        isLoading = false;
     });
 
     $: if ($projectOwner) {
         // console.log("owner changed")
         // console.log($projectOwnerId)
-        getProfilePicture($projectOwnerId)
+        getProfilePicture($projectOwnerId);
     }
 
     // Anfrage and das Backend zum liken
@@ -183,10 +170,10 @@
                 `https://webgroove-82906d5c43b2.herokuapp.com/api/projects/${$projectId}`,
                 {
                     method: "DELETE",
-                    headers: {"Content-Type": "application/json",},
+                    headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
                         userId: localStorage.getItem("userId"),
-                        jwtToken: localStorage.getItem("jwtToken")
+                        jwtToken: localStorage.getItem("jwtToken"),
                     }),
                 },
             );
@@ -196,8 +183,8 @@
                 goto("/home");
             } else {
                 const responseText = await response.json();
-                msg.msg = responseText.error
-                msg.show = true
+                msg.msg = responseText.error;
+                msg.show = true;
             }
         } catch (error) {
             console.error("Fehler beim Löschen des Projekts:", error);
@@ -205,22 +192,24 @@
     }
 
     async function getProfilePicture(currentOwnerId) {
-    pictureUrl = "";
-    try {
-        const response = await fetch(`https://webgroove-82906d5c43b2.herokuapp.com/api/user/${currentOwnerId}/profile-picture`, {
-            method: "GET",
-        });
-        if (response.ok) {
-            const data = await response.json();
-            pictureUrl = formatBase64Image(data.base64);
-        } else {
+        pictureUrl = "";
+        try {
+            const response = await fetch(
+                `https://webgroove-82906d5c43b2.herokuapp.com/api/user/${currentOwnerId}/profile-picture`,
+                {
+                    method: "GET",
+                },
+            );
+            if (response.ok) {
+                const data = await response.json();
+                pictureUrl = formatBase64Image(data.base64);
+            } else {
+                pictureUrl = "/Logo/Logo.png"; // Fallback image URL
+            }
+        } catch (error) {
             pictureUrl = "/Logo/Logo.png"; // Fallback image URL
         }
-    } catch (error) {
-        pictureUrl = "/Logo/Logo.png"; // Fallback image URL
     }
-}
-
 
     function truncateText(text, maxLength = 20) {
         if (text.length <= maxLength) {
@@ -229,18 +218,19 @@
             return text.substr(0, maxLength - 3) + "..."; // Truncate and add ellipsis
         }
     }
-
 </script>
-{#if isLoading}
-<div class="loading"><LoadingIndicator /></div>
-{:else}
-<div class="container">
 
+{#if isLoading}
+    <div class="loading"><LoadingIndicator /></div>
+{:else}
+    <div class="container">
         {#if isEditing}
             <div class="header">
                 <button class="hidden">edit</button>
                 <p>edit Project Info</p>
-                <button class="cancel-button" on:click={handleDeleteProject}>delete</button>
+                <button class="cancel-button" on:click={handleDeleteProject}
+                    >delete</button
+                >
             </div>
             <div class="input-field body">
                 <label for="name">Projektname:</label>
@@ -248,23 +238,25 @@
             </div>
             <div class="input-checkbox">
                 <div>
-                <label for="isPublic">Öffentlich:</label>
-                <input
-                    type="checkbox"
-                    id="isPublic"
-                    bind:checked={$projectIsPublic}
-                /></div>
+                    <label for="isPublic">Öffentlich:</label>
+                    <input
+                        type="checkbox"
+                        id="isPublic"
+                        bind:checked={$projectIsPublic}
+                    />
+                </div>
                 <div>
-                <label for="isPublic">importierbar:</label>
-                <input
-                    type="checkbox"
-                    id="isImportable"
-                    bind:checked={$projectIsImportable}
-                /></div>
+                    <label for="isPublic">importierbar:</label>
+                    <input
+                        type="checkbox"
+                        id="isImportable"
+                        bind:checked={$projectIsImportable}
+                    />
+                </div>
             </div>
 
             {#if msg.show}
-            <small class="msg">{msg.msg}</small>
+                <small class="msg">{msg.msg}</small>
             {/if}
             <div class="button-container">
                 <button class="save-button button" on:click={saveProjectChanges}
@@ -292,7 +284,9 @@
                         >
                             <path
                                 d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41 0.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
-                                fill={isLiked ? '#ff0000' : 'rgb(161, 161, 161)'}
+                                fill={isLiked
+                                    ? "#ff0000"
+                                    : "rgb(161, 161, 161)"}
                             />
                         </svg>
                     </button>
@@ -301,9 +295,14 @@
             <div class="body input-field">
                 <label for="description">Beschreibung:</label>
                 {#if $projectOwner === localStorage.getItem("username")}
-                    <textarea id="description" bind:value={$description}></textarea>
+                    <textarea id="description" bind:value={$description}
+                    ></textarea>
                 {:else}
-                    <textarea id="description" bind:value={$description} readonly></textarea>
+                    <textarea
+                        id="description"
+                        bind:value={$description}
+                        readonly
+                    ></textarea>
                 {/if}
             </div>
             <div class="body project-info">
@@ -331,22 +330,27 @@
             </div>
             <div class="ids">
                 {#if $loggedIn && $projectId === -1}
-                <small class="info-box warning">bitte öffne oder erstelle ein neues Projekt</small>
+                    <small class="info-box warning"
+                        >bitte öffne oder erstelle ein neues Projekt</small
+                    >
                 {:else if $readOnlyMode}
-                <small class="info-box info">read only Modus: Änderung werden nicht gepeichert</small>
+                    <small class="info-box info"
+                        >read only Modus: Änderung werden nicht gepeichert</small
+                    >
                 {:else if !$loggedIn}
-                <small class="info-box info">bitte melde dich an um Projekte zu speichern</small>
+                    <small class="info-box info"
+                        >bitte melde dich an um Projekte zu speichern</small
+                    >
                 {:else}
-                <small>Projekt ownerId: {$projectOwnerId}</small>
-                <small>Projekt ID: {$projectId}</small>
-                <small>Synth ID: {$seqPatternIdStore}</small>
-                <small>Drum ID: {$drumPatternIdStore}</small>
+                    <small>Projekt ownerId: {$projectOwnerId}</small>
+                    <small>Projekt ID: {$projectId}</small>
+                    <small>Synth ID: {$seqPatternIdStore}</small>
+                    <small>Drum ID: {$drumPatternIdStore}</small>
                 {/if}
             </div>
         {/if}
-</div>
+    </div>
 {/if}
-
 
 <style>
     .msg {
@@ -369,7 +373,7 @@
     }
     .loading {
         position: relative;
-        top: 8em
+        top: 8em;
     }
     .container {
         display: flex;
