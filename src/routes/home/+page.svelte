@@ -6,7 +6,7 @@
     import { onMount } from "svelte";
     import { checkForLoginContext, resetProjectData } from "$lib/components/Navbar/NavbarLogic";
     import VeriyEmail from "$lib/components/veriyEmail.svelte";
-    import { bpmStore, loggedIn, resetProject, showOpenProjectDialog, fetchUrl, projectOwner } from "$lib/stores";
+    import { bpmStore, loggedIn, resetProject, showOpenProjectDialog, fetchUrl, projectOwner, isNewProject, projectOwnerId, projectNameStore } from "$lib/stores";
     import PublicProjects from "$lib/components/publicProjects.svelte";
     import OpenProjectDialog from "$lib/components/Navbar/Modals/openProjectDialog.svelte";
     import Synthesizer from "$lib/components/Synthesizer.svelte";
@@ -24,11 +24,12 @@
     }
 
     function navigateToAppNoUser() {
-        projectOwner.set('')
+        projectOwnerId.set(0)
+        projectOwner.set("unregistrierter User")
+        console.log("new")
         resetProjectData()
         goto("/synthesizer")
     }
-    
     function openProject() {
         showOpenProjectDialog.set(true)
     }

@@ -13,7 +13,8 @@ import {
   synthPanStore,
   synthDecay,
   synthSustain,
-  synthRelease
+  synthRelease,
+  projectOwnerId
 } from "../../stores";
 import * as Tone from "tone";
 
@@ -52,8 +53,6 @@ export async function resetProjectData() {
   projectNameStore.set('');
   projectIsPublic.set(false);
   description.set('')
-  
-
 }
 
 //schaut ob User sich schonmal eingeloggt hat und der jwt stimmt

@@ -20,6 +20,8 @@
         readOnlyMode,
         loggedIn,
         isPreviewing,
+        rows,
+        isNewProject,
     } from "$lib/stores";
     import LoadingIndicator from "./UiComponentes/loadingIndicator.svelte";
 
@@ -127,10 +129,15 @@
     });
 
     $: if ($projectOwner) {
-        // console.log("owner changed")
-        // console.log($projectOwnerId)
+        console.log("owner changed")
+        console.log($projectOwnerId)
         getProfilePicture($projectOwnerId);
     }
+    // $: if ($isNewProject) {
+    //     // console.log("owner changed")
+    //     // console.log($projectOwnerId)
+    //     getProfilePicture($projectOwnerId);
+    // }
 
     // Anfrage and das Backend zum liken
     async function toggleLike(): Promise<void> {
@@ -306,7 +313,7 @@
                 {/if}
             </div>
             <div class="body project-info">
-                <div class="container">
+                <div class="project-details">
                     <div class="user">
                         <!-- svelte-ignore a11y-img-redundant-alt -->
                         <img class="pfp" src={pictureUrl} alt="Picture" />
@@ -388,6 +395,13 @@
         justify-content: space-between;
         width: 100%;
         margin-bottom: 1rem;
+    }
+
+    .project-details {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-around;
+        width: 100%;
     }
 
     .project-info div {
@@ -493,7 +507,7 @@
         display: flex;
         flex-flow: row nowrap;
         align-items: center;
-        width: 100%;
+        /* width: 100%; */
         justify-content: center;
         gap: 1em;
     }

@@ -65,6 +65,8 @@ export function serializePans(panners) {
   return panners.map(panner => panner.pan.value); 
 }
 
+export const isNewProject = writable<boolean>(false);
+
 
 
 

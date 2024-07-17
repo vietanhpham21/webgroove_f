@@ -191,11 +191,11 @@
             <li class="nav-item">
                 <a href="javascript:void(0);" 
                    on:click={saveProject} 
-                   class="nav-link {(!$projectNameStore) ? 'error' : ''}" 
+                   class="nav-link {(!$projectNameStore && $loggedIn ) ? 'error' : ''}" 
                    class:disabled={!$loggedIn || !$projectNameStore || $readOnlyMode} 
                    >
                     Save Project
-                    {#if !$projectNameStore}
+                    {#if !$projectNameStore && $loggedIn}
                         <i class="fa fa-exclamation"></i>
                     {/if}
                 </a>
