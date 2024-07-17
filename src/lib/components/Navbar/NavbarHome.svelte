@@ -100,7 +100,7 @@
         localStorage.clear();
         loggedIn.set(false);
         showLogoutDialog = false
-        goto("./login")
+        goto("./home");
     }
 
     function cancelLogout() {
