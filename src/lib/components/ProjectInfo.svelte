@@ -34,7 +34,6 @@
 
     } from "$lib/stores";
     import LoadingIndicator from "./UiComponentes/loadingIndicator.svelte";
-    import { read } from "$app/server";
 
     let isEditing: boolean = false;
     let isLiked: boolean = false;
