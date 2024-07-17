@@ -84,20 +84,12 @@
         pictureUrl = "/Logo/Logo.png";
         try {
             isLoading = true;
-
-            const response = await fetch(
-                `https://webgroove-82906d5c43b2.herokuapp.com/api/projects/${$projectId}/likes`,
-            );
-            if (response.ok) {
-                if (!$readOnlyMode) {
-                    await getProfilePicture(currentOwnerId);
-                }
-
-                const data = await response.json();
-                projectLikes.set(data.likeCount);
-            }
+            getLikes();
         } catch (error) {
             console.error("Fehler beim Abrufen der Likes:", error);
+        }
+        if (!$readOnlyMode) {
+            await getProfilePicture(currentOwnerId);
         }
 
         // hole die liste der User die das Projekt geliket haben
@@ -128,8 +120,26 @@
         isLoading = false;
     });
 
+    async function getLikes() {
+    try {
+        const response = await fetch(
+            `https://webgroove-82906d5c43b2.herokuapp.com/api/projects/${$projectId}/likes`,
+        );
+        if (response.ok) {
+            const data = await response.json();
+            projectLikes.set(data.likeCount);
+        }
+    } catch (error) {
+        throw error(error)
+    }
+    }
+
+    $: if($projectId) {
+        getLikes()
+    }
+
     $: if ($projectOwner) {
-        console.log("owner changed")
+        // console.log("owner changed")
         console.log($projectOwnerId)
         getProfilePicture($projectOwnerId);
     }
