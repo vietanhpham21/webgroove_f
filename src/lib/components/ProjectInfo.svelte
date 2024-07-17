@@ -34,6 +34,7 @@
 
     } from "$lib/stores";
     import LoadingIndicator from "./UiComponentes/loadingIndicator.svelte";
+    import { read } from "$app/server";
 
     let isEditing: boolean = false;
     let isLiked: boolean = false;
@@ -92,7 +93,7 @@
     //wenn ein Projekt geladen wird dann werden die aktuelle likezahl requested und es wird geschaut ob der aktuelle user das projekt bereits geliket hat
     onMount(async () => {
         let currentOwnerId = $projectOwnerId
-        console.log(currentOwnerId)
+        // console.log(currentOwnerId)
         pictureUrl = "";
         try {
             isLoading = true;
@@ -138,6 +139,12 @@
         isLoading = false
 
     });
+
+    $: if ($projectOwner) {
+        // console.log("owner changed")
+        // console.log($projectOwnerId)
+        getProfilePicture($projectOwnerId)
+    }
 
     // Anfrage and das Backend zum liken
     async function toggleLike(): Promise<void> {
@@ -225,7 +232,6 @@
     }
 
 </script>
-
 {#if isLoading}
 <div class="loading"><LoadingIndicator /></div>
 {:else}

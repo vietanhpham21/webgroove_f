@@ -1,7 +1,7 @@
 <script>
     // @ts-nocheck
     import LoadingIndicator from "$lib/components/UiComponentes/loadingIndicator.svelte";
-import {bpmStore,projectNameStore,projectIsPublic,activeDrumStore,rows, projectId, drumPatternIdStore, seqPatternIdStore, description, projectOwner, projectOwnerId, projectIsImportable, effectDrumStore, effectSynthStore} from "$lib/stores";
+import {bpmStore,projectNameStore,projectIsPublic,activeDrumStore,rows, projectId, drumPatternIdStore, seqPatternIdStore, description, projectOwner, projectOwnerId, projectIsImportable, effectDrumStore, effectSynthStore, readOnlyMode} from "$lib/stores";
     import { onMount } from "svelte";
     export let projectName;
     export let isPublic = false;
@@ -20,6 +20,7 @@ import {bpmStore,projectNameStore,projectIsPublic,activeDrumStore,rows, projectI
 
     // neues projekts
     async function handleNewProject() {
+        readOnlyMode.set(false);
         projectOwner.set(localStorage.getItem("username"))
         projectOwnerId.set(localStorage.getItem("userId"))
         projectNameStore.update(() => projectName);

@@ -75,6 +75,7 @@
         const url = `https://webgroove-82906d5c43b2.herokuapp.com/api/projects/${$projectId}/patterns`;
 
         try {
+            readOnlyMode.set(false);
             errorMessage = "";
             isLoading = true;
             const response = await fetch(url, { method: "GET" });

@@ -63,7 +63,7 @@ export async function checkForLoginContext() {
 
   // Überprüfe, ob jwtToken und userId vorhanden sind
   if (!jwtToken && !userId) {
-    console.error("Fehlende jwtToken oder userId im localStorage");
+    // console.error("Fehlende jwtToken oder userId im localStorage");
     loggedIn.update(() => false);
     return;
   }

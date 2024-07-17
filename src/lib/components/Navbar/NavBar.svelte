@@ -19,11 +19,15 @@
     let projectName;
     let isPublic;
     let isImportable;
-    let pictureUrl;
+    let pictureUrl= "/Logo/Logo.png";
 
     async function getProfilePicture() {
         pictureUrl = "";
         try {
+            if(!$loggedIn) {
+                pictureUrl = "/Logo/Logo.png"; // Fallback image URL
+                return;
+            }
             const response = await fetch(`https://webgroove-82906d5c43b2.herokuapp.com/api/user/${localStorage.getItem("userId")}/profile-picture`,
                 {method: "GET"},
             );
@@ -123,20 +127,20 @@
 
     let tooltipVisible = false;
 
-    function getTooltip() {
-        tooltipVisible = true; // Standardmäßig sichtbar, falls eine Bedingung zutrifft
+    // function getTooltip() {
+    //     tooltipVisible = true; // Standardmäßig sichtbar, falls eine Bedingung zutrifft
 
-        if (!localStorage.getItem("userId")) {
-            return 'Bitte logge dich ein, um das Projekt zu speichern.';
-        } else if ($projectNameStore == '') {
-            return 'Keine Projektdaten vorhanden, bitte erstelle ein neues Projekt oder öffne ein vorhandenes.';
-        } else if ($readOnlyMode) {
-            return 'Das Projekt ist im Nur-Lesen-Modus, Änderungen sind nicht möglich.';
-        }
+    //     if (!localStorage.getItem("userId")) {
+    //         return 'Bitte logge dich ein, um das Projekt zu speichern.';
+    //     } else if ($projectNameStore == '') {
+    //         return 'Keine Projektdaten vorhanden, bitte erstelle ein neues Projekt oder öffne ein vorhandenes.';
+    //     } else if ($readOnlyMode) {
+    //         return 'Das Projekt ist im Nur-Lesen-Modus, Änderungen sind nicht möglich.';
+    //     }
 
-        tooltipVisible = false; // Keine Bedingung zutrifft
-        return ''; // Leerer Tooltip
-    }
+    //     tooltipVisible = false; // Keine Bedingung zutrifft
+    //     return ''; // Leerer Tooltip
+    // }
 
         
     function print() {
@@ -181,22 +185,22 @@
                 <a href="javascript:void(0);" on:click={openProject} class="nav-link" class:disabled={!$loggedIn}>Open</a>
             </li>
 
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <a href="javascript:void(0);" on:click={print} class="nav-link">test</a>
-            </li>
+            </li> -->
             <li class="nav-item">
                 <a href="javascript:void(0);" 
                    on:click={saveProject} 
                    class="nav-link {(!$projectNameStore) ? 'error' : ''}" 
                    class:disabled={!$loggedIn || !$projectNameStore || $readOnlyMode} 
-                   title={getTooltip()}>
+                   >
                     Save Project
                     {#if !$projectNameStore}
                         <i class="fa fa-exclamation"></i>
                     {/if}
                 </a>
                 <span class="tooltiptext" style:visibility={tooltipVisible ? 'visible' : 'hidden'}>
-                    {getTooltip()}
+                    <!-- {getTooltip()} -->
                 </span>
             </li>
             <li class="nav-item">
