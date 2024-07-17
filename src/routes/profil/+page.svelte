@@ -21,7 +21,7 @@
         id: '',
         username: '',
         email: '',
-        profilePicture: '',
+        profilePicture: '/Logo/Logo.png',
         country: '',
         createdAt: ''
     };

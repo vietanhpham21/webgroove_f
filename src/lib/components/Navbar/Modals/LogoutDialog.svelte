@@ -2,6 +2,7 @@
     // @ts-nocheck
 
     import { goto } from "$app/navigation";
+    import { loggedIn } from "$lib/stores";
 
     export let onConfirm;
     export let onCancel;

@@ -22,7 +22,7 @@
     let pictureUrl;
 
     async function getProfilePicture() {
-        pictureUrl = "";
+        pictureUrl = "/Logo/Logo.png";
         try {
             const response = await fetch(`https://webgroove-82906d5c43b2.herokuapp.com/api/user/${localStorage.getItem("userId")}/profile-picture`,
                 {method: "GET"},
@@ -36,6 +36,10 @@
         } catch (error) {
             pictureUrl = "/Logo/Logo.png"; // Fallback image URL
         }
+    }
+
+    $: if(!$loggedIn || $loggedIn) {
+        getProfilePicture()
     }
 
     function toggleActiveClass() {
@@ -97,8 +101,8 @@
     }
 
     function confirmLogout() {
-        localStorage.clear();
         loggedIn.set(false);
+        localStorage.clear();
         showLogoutDialog = false
         goto("./home");
     }
