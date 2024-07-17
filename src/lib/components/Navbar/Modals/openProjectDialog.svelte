@@ -41,6 +41,7 @@
     import LoadingIndicator from "../../UiComponentes/loadingIndicator.svelte";
     import { goto } from "$app/navigation";
     import { walk } from "svelte/compiler";
+    import { resetProjectData } from "../NavbarLogic";
 
     let projects = [];
     let count = 0;
@@ -72,12 +73,15 @@
 
     // Lädt das Synthesizer- und Drummaschinepatten des ausgewählten Projektes aus
     async function loadPatterns() {
+        // console.log("loadpatterns()...")
         const url = `https://webgroove-82906d5c43b2.herokuapp.com/api/projects/${$projectId}/patterns`;
 
         try {
-            readOnlyMode.set(false);
+            // console.log("initialisiere...")
+            // readOnlyMode.set(false);
             errorMessage = "";
             isLoading = true;
+            // console.log("Fetch-Anfrage wird gesendet");
             const response = await fetch(url, { method: "GET" });
 
             if (!response.ok) {
@@ -86,10 +90,15 @@
             const { patterns, owner, ownerId } = await response.json();
             const sequencerPattern = patterns.stepSequence.stepSequence;
             const drumPattern = patterns.drumSequence.drumSequence;
+            
+            seqPatternIdStore.set(patterns.stepSequence.id);
+
+            drumPatternIdStore.set(patterns.drumSequence.id);
 
             projectOwner.set(owner)
             projectOwnerId.set(ownerId)
             // console.log($projectOwnerId)
+            console.log("hallo")
 
             activeDrumStore.update(() => {
                 return drumPattern;
@@ -99,7 +108,6 @@
             });
             // drum
             // console.log($gainDrumStore[0].gain)
-            seqPatternIdStore.set(patterns.stepSequence.id);
             updateSynthVolumeStore(patterns.stepSequence.volume)
             updateSynthPitchStore(patterns.stepSequence.pitch)
             updateSynthPanStore(patterns.stepSequence.pan)
@@ -108,7 +116,6 @@
             wavetableIndexStore.set(patterns.stepSequence.waveTableIndex)
             updateSynthScale(patterns.stepSequence.scale);
 
-            drumPatternIdStore.set(patterns.drumSequence.id);
             deserializeGains(patterns.drumSequence.gainDrum);
 
             deserializePans(patterns.drumSequence.panDrum)
@@ -144,7 +151,8 @@
     }
 
     // aktualisiert das im Store gespeicherte Projekt auf das Projekt was der User anklickt in der Liste
-    function handleProjectClick(project) {
+    async function handleProjectClick(project) {
+        await resetProjectData()
         isLoading = true;
         projectNameStore.set(project.projectName)
         projectId.set(project.id)
@@ -153,7 +161,8 @@
         projectIsImportable.set(project.isImportable)
         description.set(project.description)
         projectLikes.set(project.likes)
-        loadPatterns();
+        await loadPatterns();
+
         goto("./synthesizer")
     }
 
