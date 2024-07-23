@@ -8,6 +8,8 @@
     import Modal from '$lib/components/Modal.svelte';
     import { formatBase64Image } from '$lib/stores';
 
+    let isVerified;
+
     interface User {
         id: string;
         username: string;
@@ -41,7 +43,12 @@
             if (response.ok) {
                 const data: User = await response.json();
                 user = data;
+                isVerified = data.isVerified;
+                if(data.profilePicture) {
                 user.profilePicture = formatBase64Image(data.profilePicture);
+                } else {
+                    user.profilePicture = '/Logo/Logo.png'
+                }
             } else {
                 console.error('Fehler beim Abrufen des Profils:', response.statusText);
             }
@@ -357,10 +364,21 @@
         justify-content: center;
         align-items: center; /* Zentriert das Bild im Container */
         padding: 1em 0 2em 0;
+        
+    }
+
+    .fa-check {
+        color: green
+    }
+
+    .fa-close {
+        color: red
     }
 
 
 </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <div class="container">
     <div class="profile">
         <h1>Profil</h1>
@@ -407,6 +425,16 @@
             <p><strong>Username:</strong> <span>{user.username}</span></p>
             <p><strong>Email:</strong> <span>{user.email}</span></p>
             <p><strong>Country:</strong> <span>{user.country ? user.country : 'kein Land angegeben'}</span></p>
+            <p>
+                <strong>Account bestätigt:</strong>
+                <span>
+                    {#if isVerified} 
+                    <i class="fa fa-check"></i>  
+                    {:else}
+                    <i class="fa fa-close"></i>
+                    {/if}
+                </span>
+            </p>
             <p><strong>Erstellt am:</strong> <span>{new Date(user.createdAt).toLocaleDateString()}</span></p>
             <div style="display: flex; justify-content: space-between;">
                 <button class="back-button" on:click={goBack}>Zurück</button>
